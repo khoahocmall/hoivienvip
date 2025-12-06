@@ -31,6 +31,10 @@
             
             --header-height: 80px;
             --sidebar-width: 280px;
+
+            /* VIP Button Colors */
+            --vip-gradient: linear-gradient(135deg, #FFD700 0%, #FDB931 50%, #FFC107 100%);
+            --vip-text: #78350f; 
         }
 
         /* Dark Mode */
@@ -78,21 +82,96 @@
             gap: 20px; flex-wrap: wrap;
         }
 
-        .logo { 
-            font-size: 22px; font-weight: 800; text-decoration: none; white-space: nowrap;
-            display: flex; align-items: center; gap: 8px; flex-shrink: 0;
-            background: linear-gradient(to right, #2563eb, #9333ea);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        /* Logo Area */
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            flex-shrink: 0; /* Không cho logo bị co lại */
         }
-        .logo i {
-            font-size: 26px;
+        
+        .logo-icon {
+            font-size: 32px;
             background: linear-gradient(to right, #2563eb, #9333ea);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
 
+        .logo-text-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-main { 
+            font-size: 22px; font-weight: 800; white-space: nowrap;
+            background: linear-gradient(to right, #2563eb, #9333ea);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .logo-subtitle {
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+        }
+
         .controls-group {
             display: flex; align-items: center; gap: 15px;
-            flex-grow: 1; max-width: 650px; justify-content: flex-end;
+            flex-grow: 1; max-width: 800px; justify-content: flex-end;
+        }
+
+        /* VIP BUTTON STYLES - CẬP NHẬT */
+        .btn-vip {
+            background: var(--vip-gradient);
+            color: var(--vip-text);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 14px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center; /* Canh giữa chữ */
+            gap: 8px;
+            white-space: nowrap; /* Giữ chữ trên 1 dòng */
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 2px solid #fff5c2;
+            flex-shrink: 0; /* Đảm bảo nút không bị bóp méo khi không gian hẹp */
+        }
+
+        .btn-vip i { font-size: 16px; }
+
+        .btn-vip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 193, 7, 0.6);
+            filter: brightness(105%);
+        }
+
+        /* VIP Button Sparkle Effect */
+        .btn-vip::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -150%;
+            width: 100%; height: 100%;
+            background: linear-gradient(
+                to right, 
+                rgba(255,255,255,0) 0%, 
+                rgba(255,255,255,0.8) 50%, 
+                rgba(255,255,255,0) 100%
+            );
+            transform: skewX(-25deg);
+            animation: vipShine 3s infinite;
+        }
+
+        @keyframes vipShine {
+            0% { left: -150%; }
+            20% { left: 150%; }
+            100% { left: 150%; }
         }
 
         .search-box { position: relative; flex-grow: 1; width: 100%; }
@@ -133,18 +212,17 @@
             display: flex; gap: 30px; align-items: flex-start;
         }
 
-        /* --- SIDEBAR (FILE EXPLORER STYLE) --- */
+        /* --- SIDEBAR --- */
         .sidebar {
             width: var(--sidebar-width);
             flex-shrink: 0;
             position: sticky;
-            top: calc(var(--header-height) + 30px); /* Dính khi scroll */
+            top: calc(var(--header-height) + 30px);
             max-height: calc(100vh - 120px);
             overflow-y: auto;
             padding-right: 10px;
         }
 
-        /* Custom Scrollbar cho sidebar */
         .sidebar::-webkit-scrollbar { width: 6px; }
         .sidebar::-webkit-scrollbar-track { background: transparent; }
         .sidebar::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 10px; }
@@ -184,20 +262,17 @@
             border-radius: 8px; flex-shrink: 0;
         }
 
-        /* Active State */
         .cat-tag.active {
             border-color: var(--primary-color);
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
             font-weight: 700;
         }
 
-        /* Hover Effect */
         .cat-tag:hover {
             transform: translateX(5px);
             filter: brightness(1.02);
         }
 
-        /* Sparkle Animation */
         .cat-tag::after {
             content: ''; position: absolute; top: 0; left: -100%;
             width: 50%; height: 100%;
@@ -212,7 +287,6 @@
 
         @keyframes sparkle { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
 
-        /* Dark mode adjustment for tags */
         body.dark-mode .cat-tag { filter: brightness(0.85); }
         body.dark-mode .cat-tag:hover, body.dark-mode .cat-tag.active { filter: brightness(1); }
 
@@ -286,29 +360,64 @@
         #loading { text-align: center; padding: 60px; color: var(--text-muted); font-weight: 500;}
         .hidden { display: none; }
 
-        /* --- RESPONSIVE --- */
+        /* --- RESPONSIVE ADJUSTMENTS --- */
         @media (max-width: 992px) {
             .container { flex-direction: column; gap: 20px; }
-            
-            /* Sidebar biến thành danh sách ngang/lưới trên mobile */
             .sidebar { 
                 width: 100%; position: static; height: auto; 
                 max-height: none; overflow: visible; 
                 padding-right: 0;
             }
-            
             .category-list {
                 display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
             }
-
             .main-content { width: 100%; }
         }
 
+        /* --- MOBILE LAYOUT FIX --- */
         @media (max-width: 768px) {
-            body { padding-top: 130px; }
-            .navbar { flex-direction: column; gap: 15px; }
-            .controls-group { width: 100%; max-width: 100%; }
-            /* Mobile nhỏ: 1 cột cho category */
+            body { padding-top: 155px; } /* Tăng khoảng cách để không bị che bởi header cao hơn */
+            
+            .navbar { 
+                flex-direction: column; /* Xếp dọc logo và cụm điều khiển */
+                gap: 15px; 
+                align-items: stretch; /* Kéo giãn full chiều ngang */
+                padding-bottom: 15px;
+            }
+            
+            .logo-container { 
+                justify-content: center; 
+                text-align: center; 
+            }
+            
+            .logo-subtitle { display: none; } /* Ẩn subtitle trên mobile để gọn */
+            
+            .controls-group { 
+                width: 100%; 
+                max-width: 100%; 
+                flex-wrap: wrap; 
+                justify-content: space-between;
+                gap: 10px;
+            }
+
+            /* Nút VIP chiếm toàn bộ chiều ngang để hiện full chữ */
+            .btn-vip { 
+                width: 100%; 
+                order: 1; /* Hiển thị đầu tiên trong nhóm controls */
+                margin-bottom: 5px;
+                padding: 12px 20px; /* Tăng padding để dễ ấn */
+            }
+
+            .search-box { 
+                width: calc(100% - 60px); /* Chừa chỗ cho nút theme */
+                order: 2; 
+            }
+            
+            .theme-toggle-btn { 
+                width: 50px; 
+                order: 3; 
+            }
+
             .category-list { grid-template-columns: repeat(1, 1fr); }
         }
     </style>
@@ -317,11 +426,19 @@
 
     <header>
         <div class="navbar">
-            <a href="#" class="logo">
-                <i class="fas fa-graduation-cap"></i> Khóa Học Mall
+            <a href="#" class="logo-container">
+                <i class="fas fa-graduation-cap logo-icon"></i>
+                <div class="logo-text-group">
+                    <span class="logo-main">Khóa Học Mall</span>
+                    <span class="logo-subtitle">Gói Hội Viên VIP - Đầu tư 1 lần học trọn đời</span>
+                </div>
             </a>
             
             <div class="controls-group">
+                <a href="https://khoahocmall.com/dang-ky-hoi-vien/" class="btn-vip" target="_blank">
+                    <i class="fas fa-crown"></i> Nâng cấp hội viên
+                </a>
+
                 <div class="search-box">
                     <i class="fas fa-search"></i>
                     <input type="text" id="searchInp" placeholder="Tìm kiếm khóa học..." onkeyup="filterCourses()">
