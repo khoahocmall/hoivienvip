@@ -131,7 +131,7 @@
             font-weight: 700;
             font-size: 14px;
             text-decoration: none;
-            display: inline-flex; /* Sử dụng inline-flex để nút tự co theo nội dung */
+            display: inline-flex; /* Quan trọng: Để nút tự co theo nội dung */
             align-items: center;
             justify-content: center;
             gap: 8px;
@@ -206,7 +206,7 @@
             transform: rotate(15deg);
         }
 
-        /* --- LAYOUT CONTAINER (SIDEBAR + MAIN) --- */
+        /* --- LAYOUT CONTAINER --- */
         .container { 
             max-width: 1400px; margin: 30px auto; padding: 0 20px; 
             display: flex; gap: 30px; align-items: flex-start;
@@ -400,12 +400,12 @@
                 gap: 10px;
             }
 
-            /* --- CHỈNH SỬA NÚT HỘI VIÊN Ở ĐÂY --- */
+            /* Nút Hội Viên: Thu gọn, không giãn full width */
             .btn-vip { 
-                width: auto; /* Thu lại theo nội dung */
-                margin: 0 auto 5px auto; /* Căn giữa và tạo khoảng cách */
+                width: auto; /* Tự động co theo nội dung */
+                margin: 0 auto 5px auto; /* Căn giữa */
                 order: 1; 
-                padding: 10px 25px; /* Padding vừa phải */
+                padding: 10px 25px;
             }
 
             .search-box { 
@@ -464,7 +464,9 @@
     </div>
 
     <script>
-        const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQmZCaVz-MLaFWpkcBolwbSeLQWcKHYPXf6tVflgEPK-dTpOjky_uC5eLkcQIF88QWWycxPHDg1K6Ws/pub?output=csv';
+        // Link Google Sheet (dạng CSV) đã được liên kết chính xác
+        const CSV_URL_BASE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQmZCaVz-MLaFWpkcBolwbSeLQWcKHYPXf6tVflgEPK-dTpOjky_uC5eLkcQIF88QWWycxPHDg1K6Ws/pub?output=csv';
+        
         let allCourses = [];
         let currentCategory = 'all';
 
@@ -505,7 +507,11 @@
         }
 
         function fetchData() {
-            Papa.parse(CSV_URL, {
+            // Thêm tham số thời gian để tránh Cache trình duyệt, giúp dữ liệu cập nhật ngay lập tức
+            const cacheBuster = '&t=' + new Date().getTime();
+            const finalUrl = CSV_URL_BASE + cacheBuster;
+
+            Papa.parse(finalUrl, {
                 download: true, header: true, skipEmptyLines: true,
                 complete: function(results) {
                     allCourses = results.data;
@@ -514,10 +520,13 @@
                         populateCategories();
                         renderCourses(allCourses);
                     } else {
-                        document.getElementById('loading').innerHTML = "Không tìm thấy dữ liệu.";
+                        document.getElementById('loading').innerHTML = "Không tìm thấy dữ liệu hoặc trang tính rỗng.";
                     }
                 },
-                error: function(err) { console.error(err); }
+                error: function(err) { 
+                    console.error(err);
+                    document.getElementById('loading').innerHTML = "Lỗi tải dữ liệu. Vui lòng kiểm tra đường truyền.";
+                }
             });
         }
 
