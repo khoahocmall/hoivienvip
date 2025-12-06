@@ -88,7 +88,7 @@
             align-items: center;
             gap: 12px;
             text-decoration: none;
-            flex-shrink: 0; /* Không cho logo bị co lại */
+            flex-shrink: 0; 
         }
         
         .logo-icon {
@@ -122,7 +122,7 @@
             flex-grow: 1; max-width: 800px; justify-content: flex-end;
         }
 
-        /* VIP BUTTON STYLES - CẬP NHẬT */
+        /* VIP BUTTON STYLES */
         .btn-vip {
             background: var(--vip-gradient);
             color: var(--vip-text);
@@ -131,17 +131,17 @@
             font-weight: 700;
             font-size: 14px;
             text-decoration: none;
-            display: flex;
+            display: inline-flex; /* Sử dụng inline-flex để nút tự co theo nội dung */
             align-items: center;
-            justify-content: center; /* Canh giữa chữ */
+            justify-content: center;
             gap: 8px;
-            white-space: nowrap; /* Giữ chữ trên 1 dòng */
+            white-space: nowrap; 
             box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
             position: relative;
             overflow: hidden;
             transition: all 0.3s ease;
             border: 2px solid #fff5c2;
-            flex-shrink: 0; /* Đảm bảo nút không bị bóp méo khi không gian hẹp */
+            flex-shrink: 0; 
         }
 
         .btn-vip i { font-size: 16px; }
@@ -376,12 +376,12 @@
 
         /* --- MOBILE LAYOUT FIX --- */
         @media (max-width: 768px) {
-            body { padding-top: 155px; } /* Tăng khoảng cách để không bị che bởi header cao hơn */
+            body { padding-top: 155px; } 
             
             .navbar { 
-                flex-direction: column; /* Xếp dọc logo và cụm điều khiển */
+                flex-direction: column; 
                 gap: 15px; 
-                align-items: stretch; /* Kéo giãn full chiều ngang */
+                align-items: stretch;
                 padding-bottom: 15px;
             }
             
@@ -390,7 +390,7 @@
                 text-align: center; 
             }
             
-            .logo-subtitle { display: none; } /* Ẩn subtitle trên mobile để gọn */
+            .logo-subtitle { display: none; } 
             
             .controls-group { 
                 width: 100%; 
@@ -400,16 +400,16 @@
                 gap: 10px;
             }
 
-            /* Nút VIP chiếm toàn bộ chiều ngang để hiện full chữ */
+            /* --- CHỈNH SỬA NÚT HỘI VIÊN Ở ĐÂY --- */
             .btn-vip { 
-                width: 100%; 
-                order: 1; /* Hiển thị đầu tiên trong nhóm controls */
-                margin-bottom: 5px;
-                padding: 12px 20px; /* Tăng padding để dễ ấn */
+                width: auto; /* Thu lại theo nội dung */
+                margin: 0 auto 5px auto; /* Căn giữa và tạo khoảng cách */
+                order: 1; 
+                padding: 10px 25px; /* Padding vừa phải */
             }
 
             .search-box { 
-                width: calc(100% - 60px); /* Chừa chỗ cho nút theme */
+                width: calc(100% - 60px);
                 order: 2; 
             }
             
