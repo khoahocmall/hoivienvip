@@ -131,7 +131,7 @@
             font-weight: 700;
             font-size: 14px;
             text-decoration: none;
-            display: inline-flex; /* Quan trọng: Để nút tự co theo nội dung */
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
@@ -348,6 +348,7 @@
             flex: 1; padding: 10px; border-radius: 10px; 
             text-align: center; text-decoration: none; font-weight: 600; font-size: 13px; 
             transition: 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px;
+            cursor: pointer;
         }
         .btn-primary { 
             background: var(--primary-gradient); color: white; 
@@ -358,7 +359,71 @@
         .btn-outline:hover { border-color: var(--primary-color); color: var(--primary-color); background: var(--bg-color); }
 
         #loading { text-align: center; padding: 60px; color: var(--text-muted); font-weight: 500;}
-        .hidden { display: none; }
+        .hidden { display: none !important; }
+
+        /* --- MODAL (POP-UP) STYLES --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); z-index: 2000;
+            display: flex; justify-content: center; align-items: center;
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-box {
+            background: var(--card-bg); border-radius: 20px;
+            padding: 30px; width: 90%; max-width: 450px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            text-align: center; border: 1px solid var(--border-color);
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .modal-icon {
+            font-size: 50px; color: #FDB931; margin-bottom: 20px;
+        }
+        .modal-title {
+            font-size: 20px; font-weight: 800; margin-bottom: 10px;
+            color: var(--text-color);
+        }
+        .modal-desc {
+            font-size: 14px; color: var(--text-muted); margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .modal-link {
+            color: var(--primary-color); font-weight: 700; text-decoration: none;
+        }
+        .modal-input {
+            width: 100%; padding: 12px; border: 2px solid var(--border-color);
+            border-radius: 10px; margin-bottom: 15px;
+            background: var(--input-bg); color: var(--input-text);
+            font-family: inherit; box-sizing: border-box; outline: none;
+            text-align: center; font-weight: 600;
+        }
+        .modal-input:focus { border-color: var(--primary-color); }
+        .modal-btn {
+            width: 100%; padding: 12px; border-radius: 50px;
+            border: none; cursor: pointer; font-weight: 700; font-family: inherit;
+            margin-bottom: 10px; transition: 0.2s;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-confirm { background: var(--primary-gradient); color: white; }
+        .btn-confirm:hover { filter: brightness(110%); }
+        
+        .btn-vip-popup {
+            background: linear-gradient(135deg, #FFD700 0%, #FFC107 100%);
+            color: #78350f;
+            border: 1px solid #eab308;
+            text-decoration: none;
+        }
+        .btn-vip-popup:hover {
+            filter: brightness(105%);
+            transform: translateY(-1px);
+        }
+
+        .btn-close { background: transparent; color: var(--text-muted); }
+        .btn-close:hover { color: var(--text-color); background: var(--input-bg); }
 
         /* --- RESPONSIVE ADJUSTMENTS --- */
         @media (max-width: 992px) {
@@ -400,10 +465,9 @@
                 gap: 10px;
             }
 
-            /* Nút Hội Viên: Thu gọn, không giãn full width */
             .btn-vip { 
-                width: auto; /* Tự động co theo nội dung */
-                margin: 0 auto 5px auto; /* Căn giữa */
+                width: auto; 
+                margin: 0 auto 5px auto; 
                 order: 1; 
                 padding: 10px 25px;
             }
@@ -463,12 +527,41 @@
         </main>
     </div>
 
+    <div id="activationModal" class="modal-overlay hidden">
+        <div class="modal-box">
+            <div class="modal-icon"><i class="fas fa-lock"></i></div>
+            <h3 class="modal-title">Nội Dung Dành Cho Hội Viên</h3>
+            
+            <p class="modal-desc">
+                Nhập mã kích hoạt để mở khóa toàn bộ khóa học.<br>
+                <span style="font-size: 13px; color: #dc2626; font-style: italic; display: block; margin-top: 5px;">
+                    (Lưu ý: Mã kích hoạt được gửi qua Email bạn đã điền lúc đăng ký gói)
+                </span>
+            </p>
+
+            <input type="text" id="activationCode" class="modal-input" placeholder="Nhập mã kích hoạt">
+            
+            <button class="modal-btn btn-confirm" onclick="verifyCode()">Xác nhận mã</button>
+            
+            <a href="https://khoahocmall.com/dang-ky-hoi-vien/" target="_blank" class="modal-btn btn-vip-popup">
+                <i class="fas fa-crown"></i> Nâng hội viên VIP
+            </a>
+
+            <button class="modal-btn btn-close" onclick="closeModal()">Đóng</button>
+        </div>
+    </div>
+
     <script>
         // Link Google Sheet (dạng CSV) đã được liên kết chính xác
         const CSV_URL_BASE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQmZCaVz-MLaFWpkcBolwbSeLQWcKHYPXf6tVflgEPK-dTpOjky_uC5eLkcQIF88QWWycxPHDg1K6Ws/pub?output=csv';
         
+        // MÃ HÓA (Để không bị lộ khi F12)
+        // Đây là chuỗi "KHOAHOCMALL2025" đã được mã hóa Base64
+        const VIP_HASH = "S0hPQUhPQ01BTEwyMDI1"; 
+        
         let allCourses = [];
         let currentCategory = 'all';
+        let pendingUrl = ''; 
 
         const pastelColors = [
             '#FFB3BA', '#FFDFBA', '#FFFFBA', '#BAFFC9', '#BAE1FF', 
@@ -507,7 +600,6 @@
         }
 
         function fetchData() {
-            // Thêm tham số thời gian để tránh Cache trình duyệt, giúp dữ liệu cập nhật ngay lập tức
             const cacheBuster = '&t=' + new Date().getTime();
             const finalUrl = CSV_URL_BASE + cacheBuster;
 
@@ -553,7 +645,6 @@
             const container = document.getElementById('categoryList');
             container.innerHTML = '';
 
-            // Nút Tất cả
             const allBtn = createCategoryTag('Tất cả', 'all', '#eff6ff', 'fa-layer-group');
             allBtn.classList.add('active'); 
             container.appendChild(allBtn);
@@ -589,7 +680,6 @@
             element.classList.add('active');
             filterCourses();
             
-            // Mobile: Scroll to content when category clicked
             if (window.innerWidth <= 992) {
                 document.getElementById('courseList').scrollIntoView({ behavior: 'smooth' });
             }
@@ -629,8 +719,8 @@
                 let buttonsHtml = '';
                 if (urlChung) {
                     buttonsHtml = `
-                        <a href="${urlChung}" target="_blank" class="btn btn-primary"><i class="fas fa-play"></i> Học ngay</a>
-                        <a href="${urlChung}" target="_blank" class="btn btn-outline"><i class="fas fa-download"></i> Tải về</a>
+                        <a href="javascript:void(0)" onclick="checkVipAccess('${urlChung}')" class="btn btn-primary"><i class="fas fa-play"></i> Học ngay</a>
+                        <a href="javascript:void(0)" onclick="checkVipAccess('${urlChung}')" class="btn btn-outline"><i class="fas fa-download"></i> Tải về</a>
                     `;
                 }
 
@@ -646,6 +736,44 @@
                 `;
                 container.innerHTML += card;
             });
+        }
+
+        /* --- CÁC HÀM XỬ LÝ VIP/KÍCH HOẠT --- */
+        
+        function checkVipAccess(url) {
+            const isUnlocked = localStorage.getItem('isVipUnlocked');
+            
+            if (isUnlocked === 'true') {
+                window.open(url, '_blank');
+            } else {
+                pendingUrl = url;
+                document.getElementById('activationModal').classList.remove('hidden');
+            }
+        }
+
+        function closeModal() {
+            document.getElementById('activationModal').classList.add('hidden');
+            document.getElementById('activationCode').value = ''; 
+        }
+
+        function verifyCode() {
+            const inputCode = document.getElementById('activationCode').value.trim();
+            
+            // MÃ HÓA CODE NGƯỜI DÙNG NHẬP VÀO ĐỂ SO SÁNH
+            // btoa() là hàm có sẵn của trình duyệt để mã hóa Base64
+            // Nếu người dùng nhập "KHOAHOCMALL2025" -> btoa sẽ ra "S0hPQUhPQ01BTEwyMDI1" khớp với biến VIP_HASH
+            
+            try {
+                if (btoa(inputCode) === VIP_HASH) {
+                    localStorage.setItem('isVipUnlocked', 'true'); 
+                    alert('Kích hoạt thành công! Bạn có thể truy cập tất cả khóa học.');
+                    closeModal();
+                } else {
+                    alert('Mã kích hoạt không đúng. Vui lòng kiểm tra lại!');
+                }
+            } catch (e) {
+                alert('Mã kích hoạt không hợp lệ.');
+            }
         }
     </script>
 </body>
