@@ -61,8 +61,19 @@
             color: var(--text-color); 
             padding-top: var(--header-height);
             transition: background-color 0.3s ease, color 0.3s ease;
+            
+            /* --- BẢO VỆ: CHỐNG BÔI ĐEN (SELECT) --- */
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* IE 10 and IE 11 */
+            user-select: none; /* Standard syntax */
         }
         
+        /* Cho phép bôi đen ở các ô nhập liệu để người dùng gõ chữ được */
+        input, textarea {
+            -webkit-user-select: auto;
+            user-select: auto;
+        }
+
         /* --- HEADER --- */
         header { 
             background-color: var(--header-bg);
@@ -360,6 +371,9 @@
             object-fit: cover;
             margin-bottom: 15px;
             border-bottom: 1px solid var(--border-color);
+            /* Chặn kéo ảnh */
+            -webkit-user-drag: none;
+            user-drag: none;
         }
 
         .card:hover { 
@@ -624,6 +638,57 @@
         const CSV_URL_BASE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQmZCaVz-MLaFWpkcBolwbSeLQWcKHYPXf6tVflgEPK-dTpOjky_uC5eLkcQIF88QWWycxPHDg1K6Ws/pub?output=csv';
         const VIP_HASH = "S0hPQUhPQ01BTEwyMDI1"; 
         
+        // --- BẢO VỆ BẢN QUYỀN (CHỐNG COPY, F12, CHUỘT PHẢI) ---
+        
+        // 1. Chặn chuột phải (Context Menu)
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+            return false;
+        });
+
+        // 2. Chặn các phím tắt (F12, Ctrl+U, Ctrl+S, Ctrl+P, v.v...)
+        document.onkeydown = function(e) {
+            // F12
+            if (e.keyCode == 123) { 
+                return false; 
+            }
+            // Ctrl+Shift+I (Mở DevTools)
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+                return false;
+            }
+            // Ctrl+Shift+C (Inspect Element)
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+                return false;
+            }
+            // Ctrl+Shift+J (Console)
+            if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+                return false;
+            }
+            // Ctrl+U (Xem nguồn trang)
+            if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+                return false;
+            }
+            // Ctrl+S (Lưu trang)
+            if (e.ctrlKey && e.keyCode == 'S'.charCodeAt(0)) {
+                return false;
+            }
+            // Ctrl+P (In trang)
+            if (e.ctrlKey && e.keyCode == 'P'.charCodeAt(0)) {
+                return false;
+            }
+            // Ctrl+A (Chọn tất cả - tùy chọn, có thể bỏ nếu muốn cho chọn)
+            if (e.ctrlKey && e.keyCode == 'A'.charCodeAt(0)) {
+                return false;
+            }
+        };
+
+        // 3. Chặn kéo thả (Drag & Drop) để tránh kéo ảnh/text ra ngoài
+        document.addEventListener('dragstart', function(event) {
+            event.preventDefault();
+        });
+        
+        // -----------------------------------------------------
+
         let allCourses = [];
         let currentCategory = 'all';
         let pendingUrl = ''; 
