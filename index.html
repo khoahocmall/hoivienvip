@@ -119,7 +119,42 @@
 
         .controls-group {
             display: flex; align-items: center; gap: 15px;
-            flex-grow: 1; max-width: 800px; justify-content: flex-end;
+            flex-grow: 1; max-width: 900px; justify-content: flex-end;
+        }
+
+        /* --- BUTTON HOME --- */
+        .btn-home {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 13px;
+            display: flex; align-items: center; gap: 8px;
+            padding: 10px 20px;
+            border-radius: 50px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap; 
+            letter-spacing: 0.5px;
+            text-transform: uppercase; 
+            background: rgba(0, 0, 0, 0.03); 
+            border: 1px solid transparent;
+        }
+        
+        .btn-home:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-color: var(--border-color);
+        }
+
+        body.dark-mode .btn-home { 
+            background: rgba(255, 255, 255, 0.05); 
+            color: var(--text-color);
+        }
+        body.dark-mode .btn-home:hover {
+            background: var(--card-bg);
+            color: var(--primary-color);
+            border-color: var(--border-color);
         }
 
         /* VIP BUTTON STYLES */
@@ -152,7 +187,6 @@
             filter: brightness(105%);
         }
 
-        /* VIP Button Sparkle Effect */
         .btn-vip::after {
             content: '';
             position: absolute;
@@ -285,8 +319,6 @@
             pointer-events: none;
         }
 
-        @keyframes sparkle { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
-
         body.dark-mode .cat-tag { filter: brightness(0.85); }
         body.dark-mode .cat-tag:hover, body.dark-mode .cat-tag.active { filter: brightness(1); }
 
@@ -311,6 +343,23 @@
             align-items: center; text-align: center;
             height: 100%; box-sizing: border-box;
             position: relative;
+            overflow: hidden; 
+        }
+        
+        .card.has-image {
+            padding: 0 0 25px 0; 
+        }
+        
+        .card.has-image .card-body {
+            padding: 0 20px;
+        }
+
+        .card-img-top {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .card:hover { 
@@ -337,6 +386,24 @@
             margin-bottom: 12px; letter-spacing: 0.5px;
         }
 
+        /* STYLE CHO NHÃN NEW */
+        .badge-new {
+            background-color: #ef4444; 
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: 800;
+            margin-left: 6px;
+            vertical-align: middle;
+            animation: pulseNew 2s infinite;
+        }
+        @keyframes pulseNew {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
         .card-title { 
             font-size: 16px; font-weight: 700; margin: 0 0 20px 0; color: var(--text-color); 
             line-height: 1.5; word-wrap: break-word;
@@ -361,32 +428,30 @@
         #loading { text-align: center; padding: 60px; color: var(--text-muted); font-weight: 500;}
         .hidden { display: none !important; }
 
-        /* --- OPTIMIZED MODAL STYLES (ĐẸP HƠN, RESPONSIVE HƠN) --- */
+        /* --- MODAL STYLES --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.75); /* Darker overlay for focus */
+            background: rgba(0,0,0,0.75);
             z-index: 2000;
             display: flex; justify-content: center; align-items: center;
             backdrop-filter: blur(8px);
             animation: fadeIn 0.3s ease;
-            padding: 20px; /* Safe padding for mobile */
+            padding: 20px;
             box-sizing: border-box;
         }
 
         .modal-box {
             background: var(--card-bg); 
-            border-radius: 24px; /* Bo góc mềm mại hơn */
-            padding: 40px 30px; /* Thoáng hơn */
+            border-radius: 24px;
+            padding: 40px 30px;
             width: 100%; 
-            max-width: 440px; /* Kích thước chuẩn đẹp trên desktop */
+            max-width: 440px;
             box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
             text-align: center; 
             border: 1px solid var(--border-color);
             position: relative;
             animation: slideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
+            display: flex; flex-direction: column; gap: 15px;
         }
 
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
@@ -396,128 +461,71 @@
         }
 
         .modal-icon {
-            font-size: 56px; 
-            color: #FDB931; 
-            margin-bottom: 5px;
+            font-size: 56px; color: #FDB931; margin-bottom: 5px;
             filter: drop-shadow(0 4px 6px rgba(253, 185, 49, 0.3));
         }
 
         .modal-title {
-            font-size: 22px; 
-            font-weight: 800; 
-            color: var(--text-color);
-            margin: 0;
-            line-height: 1.3;
+            font-size: 22px; font-weight: 800; color: var(--text-color); margin: 0; line-height: 1.3;
         }
 
         .modal-desc {
-            font-size: 15px; 
-            color: var(--text-muted); 
-            line-height: 1.6;
-            margin: 0 0 10px 0;
+            font-size: 15px; color: var(--text-muted); line-height: 1.6; margin: 0 0 10px 0;
         }
 
-        /* Input đẹp hơn, dễ bấm trên mobile */
         .modal-input {
-            width: 100%; 
-            padding: 16px; /* Cao hơn dễ bấm */
-            border: 2px solid var(--border-color);
-            border-radius: 14px; 
-            background: var(--input-bg); 
-            color: var(--input-text);
-            font-family: inherit; 
-            font-size: 16px; /* Size 16px tránh iOS auto-zoom */
-            font-weight: 600;
-            text-align: center;
-            box-sizing: border-box; 
-            outline: none;
-            transition: all 0.3s ease;
+            width: 100%; padding: 16px; border: 2px solid var(--border-color);
+            border-radius: 14px; background: var(--input-bg); color: var(--input-text);
+            font-family: inherit; font-size: 16px; font-weight: 600; text-align: center;
+            box-sizing: border-box; outline: none; transition: all 0.3s ease;
         }
         .modal-input:focus { 
-            border-color: var(--primary-color); 
-            background: var(--card-bg);
+            border-color: var(--primary-color); background: var(--card-bg);
             box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
         }
 
-        /* Button chung */
         .modal-btn {
-            width: 100%; 
-            padding: 15px; 
-            border-radius: 50px;
-            border: none; 
-            cursor: pointer; 
-            font-weight: 700; 
-            font-family: inherit;
-            font-size: 15px;
-            display: flex; 
-            align-items: center; 
-            justify-content: center; 
-            gap: 10px;
-            transition: transform 0.2s, filter 0.2s;
-            text-decoration: none;
-            box-sizing: border-box;
+            width: 100%; padding: 15px; border-radius: 50px; border: none; 
+            cursor: pointer; font-weight: 700; font-family: inherit; font-size: 15px;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            transition: transform 0.2s, filter 0.2s; text-decoration: none; box-sizing: border-box;
         }
         .modal-btn:active { transform: scale(0.98); }
 
-        /* Nút Xác nhận */
         .btn-confirm { 
-            background: var(--primary-gradient); 
-            color: white; 
-            box-shadow: 0 8px 15px -3px rgba(37, 99, 235, 0.4);
-            margin-bottom: 5px;
+            background: var(--primary-gradient); color: white; 
+            box-shadow: 0 8px 15px -3px rgba(37, 99, 235, 0.4); margin-bottom: 5px;
         }
         .btn-confirm:hover { filter: brightness(110%); transform: translateY(-2px); }
 
-        /* Nút VIP nổi bật */
         .btn-vip-popup {
             background: linear-gradient(135deg, #FFF5C2 0%, #FFD700 30%, #FDB931 100%);
-            color: #78350f;
-            border: 2px solid #ffffff;
-            box-shadow: 0 8px 20px rgba(253, 185, 49, 0.3);
-            position: relative;
-            overflow: hidden;
+            color: #78350f; border: 2px solid #ffffff;
+            box-shadow: 0 8px 20px rgba(253, 185, 49, 0.3); position: relative; overflow: hidden;
         }
-        .btn-vip-popup:hover { 
-            transform: translateY(-2px); 
-            box-shadow: 0 10px 25px rgba(253, 185, 49, 0.5);
-        }
+        .btn-vip-popup:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(253, 185, 49, 0.5); }
 
-        /* Nút Đóng */
         .btn-close { 
-            background: transparent; 
-            color: var(--text-muted); 
-            font-weight: 600;
-            padding: 10px;
-            margin-top: 5px;
+            background: transparent; color: var(--text-muted); font-weight: 600;
+            padding: 10px; margin-top: 5px;
         }
-        .btn-close:hover { 
-            color: var(--text-color); 
-            background: rgba(0,0,0,0.05);
-        }
+        .btn-close:hover { color: var(--text-color); background: rgba(0,0,0,0.05); }
 
         /* Responsive Fixes */
         @media (max-width: 992px) {
             .container { flex-direction: column; gap: 20px; }
             .sidebar { 
                 width: 100%; position: static; height: auto; 
-                max-height: none; overflow: visible; 
-                padding-right: 0;
+                max-height: none; overflow: visible; padding-right: 0;
             }
-            .category-list {
-                display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
-            }
+            .category-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
             .main-content { width: 100%; }
         }
 
         @media (max-width: 768px) {
             body { padding-top: 155px; } 
             
-            .navbar { 
-                flex-direction: column; 
-                gap: 15px; 
-                align-items: stretch;
-                padding-bottom: 15px;
-            }
+            .navbar { flex-direction: column; gap: 15px; align-items: stretch; padding-bottom: 15px; }
             
             .logo-container { justify-content: center; text-align: center; }
             .logo-subtitle { display: none; } 
@@ -527,12 +535,13 @@
                 flex-wrap: wrap; justify-content: space-between; gap: 10px;
             }
 
-            .btn-vip { width: auto; margin: 0 auto 5px auto; order: 1; padding: 10px 25px; }
+            .btn-home { order: 0; width: auto; margin: 0; justify-content: center; flex-grow: 1; }
+            .btn-vip { width: auto; margin: 0; order: 1; padding: 10px 20px; flex-grow: 2; }
+            
             .search-box { width: calc(100% - 60px); order: 2; }
             .theme-toggle-btn { width: 50px; order: 3; }
             .category-list { grid-template-columns: repeat(1, 1fr); }
             
-            /* Modal Mobile tweak */
             .modal-box { padding: 30px 20px; gap: 12px; }
             .modal-title { font-size: 20px; }
             .modal-icon { font-size: 48px; }
@@ -552,6 +561,10 @@
             </a>
             
             <div class="controls-group">
+                <a href="https://khoahocmall.com/" class="btn-home">
+                    <i class="fas fa-home"></i> Trang chủ
+                </a>
+
                 <a href="https://khoahocmall.com/dang-ky-hoi-vien/" class="btn-vip" target="_blank">
                     <i class="fas fa-crown"></i> Nâng cấp hội viên
                 </a>
@@ -608,11 +621,7 @@
     </div>
 
     <script>
-        // Link Google Sheet (dạng CSV) đã được liên kết chính xác
         const CSV_URL_BASE = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQmZCaVz-MLaFWpkcBolwbSeLQWcKHYPXf6tVflgEPK-dTpOjky_uC5eLkcQIF88QWWycxPHDg1K6Ws/pub?output=csv';
-        
-        // MÃ HÓA (Để không bị lộ khi F12)
-        // Đây là chuỗi "KHOAHOCMALL2025" đã được mã hóa Base64
         const VIP_HASH = "S0hPQUhPQ01BTEwyMDI1"; 
         
         let allCourses = [];
@@ -629,7 +638,6 @@
             initTheme();
         });
 
-        // Theme Logic
         function initTheme() {
             const toggleBtn = document.getElementById('themeToggle');
             const icon = toggleBtn.querySelector('i');
@@ -655,6 +663,18 @@
             });
         }
 
+        // --- HÀM XỬ LÝ NGÀY THÁNG ---
+        // Chuyển chuỗi "dd/mm/yyyy" sang đối tượng Date
+        function parseDate(dateStr) {
+            if (!dateStr) return null;
+            const parts = dateStr.split('/');
+            if (parts.length === 3) {
+                // new Date(yyyy, mm-1, dd)
+                return new Date(parts[2], parts[1] - 1, parts[0]);
+            }
+            return null;
+        }
+
         function fetchData() {
             const cacheBuster = '&t=' + new Date().getTime();
             const finalUrl = CSV_URL_BASE + cacheBuster;
@@ -663,8 +683,22 @@
                 download: true, header: true, skipEmptyLines: true,
                 complete: function(results) {
                     allCourses = results.data;
+                    
                     if (allCourses.length > 0) {
                         document.getElementById('loading').classList.add('hidden');
+                        
+                        // --- SẮP XẾP MỚI NHẤT LÊN ĐẦU ---
+                        allCourses.sort((a, b) => {
+                            const dateA = parseDate(a.NgayCapNhat || a['NgayCapNhat']);
+                            const dateB = parseDate(b.NgayCapNhat || b['NgayCapNhat']);
+                            
+                            // Nếu không có ngày, coi như là ngày rất cũ
+                            const timeA = dateA ? dateA.getTime() : 0;
+                            const timeB = dateB ? dateB.getTime() : 0;
+                            
+                            return timeB - timeA; // Giảm dần (Mới nhất lên đầu)
+                        });
+
                         populateCategories();
                         renderCourses(allCourses);
                     } else {
@@ -741,17 +775,42 @@
             }
         }
 
+        function removeVietnameseTones(str) {
+            str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g,"a"); 
+            str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g,"e"); 
+            str = str.replace(/ì|í|ị|ỉ|ĩ/g,"i"); 
+            str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g,"o"); 
+            str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g,"u"); 
+            str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g,"y"); 
+            str = str.replace(/đ/g,"d");
+            str = str.replace(/À|Á|Ạ|Ả|Ã|Â|Ầ|Ấ|Ậ|Ẩ|Ẫ|Ă|Ằ|Ắ|Ặ|Ẳ|Ẵ/g, "A");
+            str = str.replace(/È|É|Ẹ|Ẻ|Ẽ|Ê|Ề|Ế|Ệ|Ể|Ễ/g, "E");
+            str = str.replace(/Ì|Í|Ị|Ỉ|Ĩ/g, "I");
+            str = str.replace(/Ò|Ó|Ọ|Ỏ|Õ|Ô|Ồ|Ố|Ộ|Ổ|Ỗ|Ơ|Ờ|Ớ|Ợ|Ở|Ỡ/g, "O");
+            str = str.replace(/Ù|Ú|Ụ|Ủ|Ũ|Ư|Ừ|Ứ|Ự|Ử|Ữ/g, "U");
+            str = str.replace(/Ỳ|Ý|Ỵ|Ỷ|Ỹ/g, "Y");
+            str = str.replace(/Đ/g, "D");
+            return str;
+        }
+
         function filterCourses() {
-            const searchTerm = document.getElementById('searchInp').value.toLowerCase().trim();
+            const searchRaw = document.getElementById('searchInp').value.trim();
+            const searchKey = removeVietnameseTones(searchRaw.toLowerCase());
 
             const filtered = allCourses.filter(course => {
-                let ten = course.TenKhoaHoc || course['TenKhoaHoc'];
-                let danhmuc = course.DanhMuc || course['DanhMuc'];
+                let ten = course.TenKhoaHoc || course['TenKhoaHoc'] || '';
+                let danhmuc = course.DanhMuc || course['DanhMuc'] || '';
                 
+                const tenNoDau = removeVietnameseTones(ten.toLowerCase());
+                const danhMucNoDau = removeVietnameseTones(danhmuc.toLowerCase());
+
                 if (!ten) return false;
-                const matchName = ten.toLowerCase().includes(searchTerm);
-                const matchCat = currentCategory === 'all' || (danhmuc && danhmuc.trim() === currentCategory);
-                return matchName && matchCat;
+                const matchName = tenNoDau.includes(searchKey);
+                const matchCatName = danhMucNoDau.includes(searchKey);
+                
+                const matchCategoryFilter = currentCategory === 'all' || (danhmuc && danhmuc.trim() === currentCategory);
+                
+                return (matchName || matchCatName) && matchCategoryFilter;
             });
 
             renderCourses(filtered);
@@ -766,11 +825,29 @@
                 return;
             }
 
+            const today = new Date();
+
             courses.forEach(course => {
                 let ten = course.TenKhoaHoc || course['TenKhoaHoc']; 
                 let danhmuc = course.DanhMuc || course['DanhMuc'];
                 let urlChung = course.URL || course['URL']; 
+                let imgUrl = course['URL-hinh-anh'] || course['URL_hinh_anh'] || '';
+                let ngayCapNhatStr = course['NgayCapNhat'] || '';
+
                 if (!ten) return;
+
+                // --- XỬ LÝ NHÃN NEW (30 NGÀY) ---
+                let newLabelHtml = '';
+                if (ngayCapNhatStr) {
+                    const courseDate = parseDate(ngayCapNhatStr);
+                    if (courseDate) {
+                        const diffTime = Math.abs(today - courseDate);
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
+                        if (diffDays <= 30) {
+                            newLabelHtml = '<span class="badge-new">NEW</span>';
+                        }
+                    }
+                }
 
                 let buttonsHtml = '';
                 if (urlChung) {
@@ -780,17 +857,31 @@
                     `;
                 }
 
-                const card = `
-                    <div class="card">
-                        <div class="card-icon-wrapper"><i class="fas fa-book-open"></i></div>
+                let visualContent = '';
+                let cardClass = 'card';
+                
+                if (imgUrl && imgUrl.trim() !== '') {
+                    cardClass += ' has-image';
+                    visualContent = `<img src="${imgUrl}" alt="${ten}" class="card-img-top" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                                     <div class="card-icon-wrapper" style="display:none"><i class="fas fa-book-open"></i></div>`; 
+                } else {
+                    visualContent = `<div class="card-icon-wrapper"><i class="fas fa-book-open"></i></div>`;
+                }
+
+                const cardHtml = `
+                    <div class="${cardClass}">
+                        ${visualContent}
                         <div class="card-body">
-                            <span class="badge">${danhmuc || 'Chung'}</span>
+                            <div>
+                                <span class="badge">${danhmuc || 'Chung'}</span>
+                                ${newLabelHtml}
+                            </div>
                             <h3 class="card-title" title="${ten}">${ten}</h3>
                             <div class="card-actions">${buttonsHtml}</div>
                         </div>
                     </div>
                 `;
-                container.innerHTML += card;
+                container.innerHTML += cardHtml;
             });
         }
 
@@ -830,4 +921,3 @@
     </script>
 </body>
 </html>
-
